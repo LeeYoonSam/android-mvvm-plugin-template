@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.leeyoonsam.androidmvvmplugintemplate.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.leeyoonsam.androidmvvmplugintemplate.MyBundle
 
 class MyApplicationService {
 
