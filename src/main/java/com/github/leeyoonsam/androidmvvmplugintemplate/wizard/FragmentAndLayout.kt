@@ -1,8 +1,7 @@
 package com.github.leeyoonsam.androidmvvmplugintemplate.wizard
 
-import java.util.Locale
-import android.databinding.tool.ext.toCamelCase
 import com.android.tools.idea.wizard.template.ProjectTemplateData
+import java.util.Locale
 
 fun someActivity(
     packageName: String,
@@ -11,7 +10,7 @@ fun someActivity(
     layoutName: String,
     projectData: ProjectTemplateData
 ) : String {
-    val dataBindingName = "Activity${entityName.lowercase(Locale.getDefault()).toCamelCase()}Binding"
+    val dataBindingName = "Activity${entityName}Binding"
 
     return """
         package $packageName.view
@@ -57,7 +56,7 @@ fun someFragment(
     layoutName: String,
     projectData: ProjectTemplateData
 ): String {
-    val dataBindingName = "Fragment${entityName.lowercase(Locale.getDefault()).toCamelCase()}Binding"
+    val dataBindingName = "Fragment${entityName}Binding"
     return """
         package $newFilePackage.view
         

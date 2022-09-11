@@ -1,7 +1,17 @@
 package com.github.leeyoonsam.androidmvvmplugintemplate.wizard
 
-import com.android.tools.idea.wizard.template.*
-import java.util.Locale
+import com.android.tools.idea.wizard.template.Category
+import com.android.tools.idea.wizard.template.Constraint
+import com.android.tools.idea.wizard.template.FormFactor
+import com.android.tools.idea.wizard.template.ModuleTemplateData
+import com.android.tools.idea.wizard.template.PackageNameWidget
+import com.android.tools.idea.wizard.template.TemplateData
+import com.android.tools.idea.wizard.template.TextFieldWidget
+import com.android.tools.idea.wizard.template.WizardUiContext
+import com.android.tools.idea.wizard.template.activityToLayout
+import com.android.tools.idea.wizard.template.fragmentToLayout
+import com.android.tools.idea.wizard.template.stringParameter
+import com.android.tools.idea.wizard.template.template
 
 private const val MIN_SDK = 21
 
@@ -29,7 +39,7 @@ val mvvmActivityTemplate
             default = ""
             help = "The name of the layout to create for the Activity"
             constraints = listOf(Constraint.LAYOUT, Constraint.UNIQUE, Constraint.NONEMPTY)
-            suggest = { activityToLayout(entityName.value.lowercase(Locale.getDefault())) }
+            suggest = { activityToLayout(entityName.value.toCamelToSnakeCase()) }
         }
 
         widgets(
@@ -74,7 +84,7 @@ val mvvmFragmentTemplate
             default = ""
             help = "The name of the layout to create for the fragment"
             constraints = listOf(Constraint.LAYOUT, Constraint.UNIQUE, Constraint.NONEMPTY)
-            suggest = { fragmentToLayout(entityName.value.lowercase(Locale.getDefault())) }
+            suggest = { fragmentToLayout(entityName.value.toCamelToSnakeCase()) }
         }
 
         widgets(
