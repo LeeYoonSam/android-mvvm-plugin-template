@@ -1,100 +1,96 @@
 package com.github.leeyoonsam.androidmvvmplugintemplate.wizard
 
 import com.android.tools.idea.wizard.template.ProjectTemplateData
-import java.util.Locale
 
-fun someActivity(
+fun defaultActivity(
     packageName: String,
-    newFilePackage: String,
     entityName: String,
-    layoutName: String,
     projectData: ProjectTemplateData
 ) : String {
+    val activityName = "${entityName}Activity"
     val dataBindingName = "Activity${entityName}Binding"
+    val viewDirectory = "view"
 
     return """
-        package $packageName.view
-        
+        package $packageName.$viewDirectory
+
         import android.os.Bundle
+        import android.os.PersistableBundle
         import androidx.activity.viewModels
-        import ${projectData.applicationPackage}.R
+        import androidx.appcompat.app.AppCompatActivity
         import ${projectData.applicationPackage}.databinding.${dataBindingName}
-        import ${projectData.applicationPackage}.presentation.base.ui.BaseActivity
-        import ${projectData.applicationPackage}.domain.entity.ActionEntity
-        import ${projectData.applicationPackage}.domain.entity.ClickEntity
-        import ${newFilePackage}.viewmodel.${entityName}ViewModel
+        import ${packageName}.viewmodel.${entityName}ViewModel
         import dagger.hilt.android.AndroidEntryPoint
         
         @AndroidEntryPoint
-        class ${entityName}Activity : BaseActivity<${dataBindingName}>(R.layout.${layoutName.lowercase(Locale.getDefault())}) {
-            
+        class $activityName : AppCompatActivity() {
+        
+            private lateinit var binding: $dataBindingName
+        
             private val viewModel by viewModels<${entityName}ViewModel>()
-            
-            override fun onCreate(savedInstanceState: Bundle?) {
-        		super.onCreate(savedInstanceState)
-        		binding.viewModel = viewModel
-        	}
-            
-            override fun setBind() {}
-
-            override fun initObserve() {}
         
-            override fun initData() {}
+            override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+                super.onCreate(savedInstanceState, persistentState)
         
-            override fun handleSelectEvent(entity: ClickEntity) {}
+                binding = $dataBindingName.inflate(layoutInflater).apply {
+                    lifecycleOwner = this@$activityName
+                    viewModel = this@$activityName.viewModel
+                }
         
-            override fun handleActionEvent(entity: ActionEntity) {}
+                setContentView(binding.root)
+            }
         }
     """.trimIndent()
+
 }
 
-fun someFragment(
-    date: String,
-    defaultPackage: String,
-    newFilePackage: String,
+fun defaultFragment(
+    packageName: String,
     entityName: String,
-    layoutName: String,
     projectData: ProjectTemplateData
 ): String {
+    val fragmentName = "${entityName}Fragment"
     val dataBindingName = "Fragment${entityName}Binding"
+    val viewDirectory = "view"
+
     return """
-        package $newFilePackage.view
-        
+        package $packageName.$viewDirectory
+
         import android.os.Bundle
+        import android.view.LayoutInflater
         import android.view.View
+        import android.view.ViewGroup
+        import androidx.fragment.app.Fragment
         import androidx.fragment.app.viewModels
-        import ${projectData.applicationPackage}.presentation.base.ui.BaseFragment
         import ${projectData.applicationPackage}.databinding.${dataBindingName}
-        import ${projectData.applicationPackage}.R
-        import ${projectData.applicationPackage}.domain.entity.ActionEntity
-        import ${projectData.applicationPackage}.domain.entity.ClickEntity
-        import ${newFilePackage}.viewmodel.${entityName}ViewModel
+        import ${packageName}.viewmodel.${entityName}ViewModel
         import dagger.hilt.android.AndroidEntryPoint
         
         @AndroidEntryPoint
-        class ${entityName}Fragment : BaseFragment<${dataBindingName}>(R.layout.${layoutName.lowercase(Locale.getDefault())}) {
-            
-            private val viewModel by viewModels<${entityName}ViewModel>()
-            
-            override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-                binding.viewModel = viewModel
-                super.onViewCreated(view, savedInstanceState)
-            }
-            
-            override fun setBind() {}
+        class $fragmentName : Fragment() {
 
-            override fun initObserve() {}
-        
-            override fun initData() {}
-        
-            override fun handleSelectEvent(entity: ClickEntity) {}
-        
-            override fun handleActionEvent(entity: ActionEntity) {}
+        	private lateinit var binding: $dataBindingName
+
+        	private val viewModel by viewModels<${entityName}ViewModel>()
+
+        	override fun onCreateView(
+        		inflater: LayoutInflater,
+        		container: ViewGroup?,
+        		savedInstanceState: Bundle?
+        	): View {
+
+        		binding = $dataBindingName.inflate(layoutInflater).apply {
+        			lifecycleOwner = viewLifecycleOwner
+        			viewModel = this@$fragmentName.viewModel
+        		}
+
+        		return binding.root
+        	}
         }
     """.trimIndent()
 }
 
-fun someViewModel(
+fun defaultViewModel(
     date: String,
     defaultPackage: String,
     newFilePackage: String,
@@ -111,14 +107,11 @@ fun someViewModel(
     @HiltViewModel
     class ${entityName}ViewModel @Inject constructor(
 
-    ) : BaseViewModel() {
-
-    }
+    ) : BaseViewModel()
 """.trimIndent()
 
-fun someLayoutWithViewModel(
+fun defaultLayoutWithViewModel(
     packageName: String,
-    newFilePackage: String,
     entityName: String
 ) = """
     <?xml version="1.0" encoding="utf-8"?>
@@ -128,7 +121,7 @@ fun someLayoutWithViewModel(
         <data>
             <variable
                 name="viewModel"
-                type="${newFilePackage}.${entityName}ViewModel" />
+                type="${packageName}.${entityName}ViewModel" />
         </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout

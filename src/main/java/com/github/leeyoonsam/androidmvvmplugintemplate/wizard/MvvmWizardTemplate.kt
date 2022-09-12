@@ -51,11 +51,11 @@ val mvvmActivityTemplate
 
         recipe = { data: TemplateData ->
             mvvmSetupForActivity(
-                data as ModuleTemplateData,
-                packageNameParam.value,
-                pathNameParam.value,
-                entityName.value,
-                layoutName.value
+                moduleData = data as ModuleTemplateData,
+                defaultPackage = packageNameParam.value,
+                newFilePackage = pathNameParam.value,
+                entityName = entityName.value,
+                layoutName = layoutName.value
             )
         }
     }

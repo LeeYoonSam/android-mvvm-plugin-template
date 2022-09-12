@@ -27,17 +27,15 @@ fun RecipeExecutor.mvvmSetupForActivity(
     val viewModelPath = "viewmodel"
 
     save(
-        source = someActivity(
-            packageName = defaultPackage,
-            newFilePackage = newFilePackage,
+        source = defaultActivity(
+            packageName = newFilePackage,
             entityName = entityName,
-            layoutName = layoutName,
             projectData = projectData
         ),
         to = srcKotlinDir.resolve("${viewPath}/${entityName}Activity.kt")
     )
     save(
-        source = someViewModel(
+        source = defaultViewModel(
             date = date,
             defaultPackage = defaultPackage,
             newFilePackage = newFilePackage,
@@ -48,9 +46,8 @@ fun RecipeExecutor.mvvmSetupForActivity(
         to = srcKotlinDir.resolve("${viewModelPath}/${entityName}ViewModel.kt")
     )
     save(
-        source = someLayoutWithViewModel(
-            packageName = defaultPackage,
-            newFilePackage = "${newFilePackage}.${viewModelPath}",
+        source = defaultLayoutWithViewModel(
+            packageName = "${newFilePackage}.${viewModelPath}",
             entityName = entityName
         ),
         to = resOut.resolve("layout/$layoutName.xml")
@@ -77,18 +74,15 @@ fun RecipeExecutor.mvvmSetupForFragment(
     val viewModelPath = "viewmodel"
 
     save(
-        source = someFragment(
-            date = date,
-            defaultPackage = defaultPackage,
-            newFilePackage = newFilePackage,
+        source = defaultFragment(
+            packageName = newFilePackage,
             entityName = entityName,
-            layoutName = layoutName,
             projectData = projectData
         ),
         to = srcKotlinDir.resolve("${viewPath}/${entityName}Fragment.kt")
     )
     save(
-        source = someViewModel(
+        source = defaultViewModel(
             date = date,
             defaultPackage = defaultPackage,
             newFilePackage = newFilePackage,
@@ -99,9 +93,8 @@ fun RecipeExecutor.mvvmSetupForFragment(
         to = srcKotlinDir.resolve("${viewModelPath}/${entityName}ViewModel.kt")
     )
     save(
-        source = someLayoutWithViewModel(
-            packageName = defaultPackage,
-            newFilePackage = "${newFilePackage}.${viewModelPath}",
+        source = defaultLayoutWithViewModel(
+            packageName = "${newFilePackage}.${viewModelPath}",
             entityName = entityName
         ),
         to = resOut.resolve("layout/$layoutName.xml")
