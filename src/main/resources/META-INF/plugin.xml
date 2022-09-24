@@ -6,8 +6,10 @@
 
     <depends>org.jetbrains.android</depends>
     <depends>org.jetbrains.kotlin</depends>
+
+    <depends>com.intellij.java</depends>
     <depends>com.intellij.modules.java</depends>
-    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.androidstudio</depends>
 
     <extensions defaultExtensionNs="com.android.tools.idea.wizard.template">
         <wizardTemplateProvider implementation="com.github.leeyoonsam.androidmvvmplugintemplate.wizard.WizardTemplateProviderImpl" />

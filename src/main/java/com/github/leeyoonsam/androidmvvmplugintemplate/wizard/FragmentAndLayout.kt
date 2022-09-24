@@ -100,7 +100,7 @@ fun defaultViewModel(
 ) = """
     package $newFilePackage.viewmodel
     
-    import ${projectData.applicationPackage}.presentation.base.ui.BaseViewModel
+    import ${projectData.applicationPackage}.presentation.base.viewmodel.BaseViewModel
     import dagger.hilt.android.lifecycle.HiltViewModel
     import javax.inject.Inject
 
