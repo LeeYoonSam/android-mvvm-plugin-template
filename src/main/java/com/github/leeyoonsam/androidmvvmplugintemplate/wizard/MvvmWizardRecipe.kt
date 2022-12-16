@@ -3,8 +3,6 @@ package com.github.leeyoonsam.androidmvvmplugintemplate.wizard
 import com.android.tools.idea.wizard.template.ModuleTemplateData
 import com.android.tools.idea.wizard.template.RecipeExecutor
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
 
 fun RecipeExecutor.mvvmSetupForActivity(
     moduleData: ModuleTemplateData,
@@ -13,8 +11,6 @@ fun RecipeExecutor.mvvmSetupForActivity(
     layoutName: String
 ) {
     val (projectData, srcOut, resOut) = moduleData
-
-    val format = SimpleDateFormat("yyyy/MM/dd")
 
     val path = srcOut.absolutePath
     val srcKotlinDir = File(path)
@@ -78,8 +74,6 @@ fun RecipeExecutor.mvvmSetupForFragment(
     layoutName: String
 ) {
     val (projectData, srcOut, resOut) = moduleData
-
-    val format = SimpleDateFormat("yyyy/MM/dd")
 
     val path = srcOut.absolutePath
     val srcKotlinDir = File(path)

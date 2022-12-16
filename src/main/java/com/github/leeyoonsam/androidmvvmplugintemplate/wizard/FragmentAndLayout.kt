@@ -14,15 +14,18 @@ fun defaultActivity(
     return """
         package $packageName.$viewDirectory
 
+        import android.content.Context
+        import android.content.Intent
         import android.os.Bundle
-        import android.os.PersistableBundle
         import androidx.activity.viewModels
         import androidx.appcompat.app.AppCompatActivity
-        import ${projectData.applicationPackage}.R
-        import ${projectData.applicationPackage}.databinding.${dataBindingName}
         import ${packageName}.viewmodel.${entityName}ViewModel
         import dagger.hilt.android.AndroidEntryPoint
-        
+        import ${projectData.applicationPackage}.databinding.${dataBindingName}
+        import ${projectData.applicationPackage}.domain.entity.ActionEntity
+        import ${projectData.applicationPackage}.domain.entity.ClickEntity
+        import ${projectData.applicationPackage}.utils.extensions.observeHandledEvent
+
         @AndroidEntryPoint
         class $activityName : AppCompatActivity() {
         
@@ -53,9 +56,7 @@ fun defaultActivity(
                 }
                 
                 observeHandledEvent(viewModel.event.throwable) {
-                    if (it.first is UnknownHostException) {
-                        showToast(getString(R.string.error_default))
-                    }
+                    
                 }
             }
         
@@ -98,11 +99,13 @@ fun defaultFragment(
         import android.view.ViewGroup
         import androidx.fragment.app.Fragment
         import androidx.fragment.app.viewModels
-        import ${projectData.applicationPackage}.R
-        import ${projectData.applicationPackage}.databinding.${dataBindingName}
         import ${packageName}.viewmodel.${entityName}ViewModel
         import dagger.hilt.android.AndroidEntryPoint
-        
+        import ${projectData.applicationPackage}.databinding.${dataBindingName}
+        import ${projectData.applicationPackage}.domain.entity.ActionEntity
+        import ${projectData.applicationPackage}.domain.entity.ClickEntity
+        import ${projectData.applicationPackage}.utils.extensions.observeHandledEvent
+
         @AndroidEntryPoint
         class $fragmentName : Fragment() {
 
@@ -134,9 +137,7 @@ fun defaultFragment(
                     handleActionEvent(it)
                 }
                 observeHandledEvent(viewModel.event.throwable) {
-                    if (it.first is UnknownHostException) {
-                        showToast(getString(R.string.error_default))
-                    }
+                    
                 }
             }
         
