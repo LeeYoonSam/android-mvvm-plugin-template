@@ -20,7 +20,7 @@ val mvvmActivityTemplate
         name = "Android MVVM Activity Creator"
         description = "Creates a new Activity/ViewModel with layout file."
         minApi = MIN_SDK
-        category = Category.Other // Check other categories
+        category = Category.Activity // Check other categories
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry,
             WizardUiContext.NewProject, WizardUiContext.NewModule)
@@ -52,7 +52,6 @@ val mvvmActivityTemplate
         recipe = { data: TemplateData ->
             mvvmSetupForActivity(
                 moduleData = data as ModuleTemplateData,
-                defaultPackage = packageNameParam.value,
                 newFilePackage = pathNameParam.value,
                 entityName = entityName.value,
                 layoutName = layoutName.value
@@ -65,7 +64,7 @@ val mvvmFragmentTemplate
         name = "Android MVVM Fragment Creator"
         description = "Creates a new Fragment/ViewModel with layout file."
         minApi = MIN_SDK
-        category = Category.Other // Check other categories
+        category = Category.Fragment // Check other categories
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.FragmentGallery, WizardUiContext.MenuEntry,
             WizardUiContext.NewProject, WizardUiContext.NewModule)
@@ -96,11 +95,10 @@ val mvvmFragmentTemplate
 
         recipe = { data: TemplateData ->
             mvvmSetupForFragment(
-                data as ModuleTemplateData,
-                packageNameParam.value,
-                pathNameParam.value,
-                entityName.value,
-                layoutName.value
+                moduleData = data as ModuleTemplateData,
+                newFilePackage = pathNameParam.value,
+                entityName = entityName.value,
+                layoutName = layoutName.value
             )
         }
     }

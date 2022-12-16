@@ -18,6 +18,7 @@ fun defaultActivity(
         import android.os.PersistableBundle
         import androidx.activity.viewModels
         import androidx.appcompat.app.AppCompatActivity
+        import ${projectData.applicationPackage}.R
         import ${projectData.applicationPackage}.databinding.${dataBindingName}
         import ${packageName}.viewmodel.${entityName}ViewModel
         import dagger.hilt.android.AndroidEntryPoint
@@ -29,8 +30,8 @@ fun defaultActivity(
         
             private val viewModel by viewModels<${entityName}ViewModel>()
         
-            override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-                super.onCreate(savedInstanceState, persistentState)
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
         
                 binding = $dataBindingName.inflate(layoutInflater).apply {
                     lifecycleOwner = this@$activityName
@@ -38,10 +39,45 @@ fun defaultActivity(
                 }
         
                 setContentView(binding.root)
+                
+                observeEventNotifier()
+            }
+        
+            private fun observeEventNotifier() {
+                observeHandledEvent(viewModel.event.click) {
+                    handleSelectEvent(it)
+                }
+                
+                observeHandledEvent(viewModel.event.action) {
+                    handleActionEvent(it)
+                }
+                
+                observeHandledEvent(viewModel.event.throwable) {
+                    if (it.first is UnknownHostException) {
+                        showToast(getString(R.string.error_default))
+                    }
+                }
+            }
+        
+            private fun handleActionEvent(entity: ActionEntity) {
+                when (entity) {
+                }
+            }
+        
+            private fun handleSelectEvent(entity: ClickEntity) {
+                when (entity) {
+                }
+            }
+            
+            companion object {
+                fun start(context: Context) {
+                    context.startActivity(
+                        Intent(context, $activityName::class.java)
+                    )
+                }
             }
         }
     """.trimIndent()
-
 }
 
 fun defaultFragment(
@@ -62,6 +98,7 @@ fun defaultFragment(
         import android.view.ViewGroup
         import androidx.fragment.app.Fragment
         import androidx.fragment.app.viewModels
+        import ${projectData.applicationPackage}.R
         import ${projectData.applicationPackage}.databinding.${dataBindingName}
         import ${packageName}.viewmodel.${entityName}ViewModel
         import dagger.hilt.android.AndroidEntryPoint
@@ -84,18 +121,41 @@ fun defaultFragment(
         			viewModel = this@$fragmentName.viewModel
         		}
 
+                observeEventNotifier()
+
         		return binding.root
         	}
+        
+            private fun observeEventNotifier() {
+                observeHandledEvent(viewModel.event.click) {
+                    handleSelectEvent(it)
+                }
+                observeHandledEvent(viewModel.event.action) {
+                    handleActionEvent(it)
+                }
+                observeHandledEvent(viewModel.event.throwable) {
+                    if (it.first is UnknownHostException) {
+                        showToast(getString(R.string.error_default))
+                    }
+                }
+            }
+        
+            private fun handleActionEvent(entity: ActionEntity) {
+                when (entity) {
+                }
+            }
+        
+            private fun handleSelectEvent(entity: ClickEntity) {
+                when (entity) {
+                }
+            }
         }
     """.trimIndent()
 }
 
 fun defaultViewModel(
-    date: String,
-    defaultPackage: String,
     newFilePackage: String,
     entityName: String,
-    layoutName: String,
     projectData: ProjectTemplateData
 ) = """
     package $newFilePackage.viewmodel
@@ -106,8 +166,68 @@ fun defaultViewModel(
 
     @HiltViewModel
     class ${entityName}ViewModel @Inject constructor(
+        stringProvider: ${entityName}StringProvider
+    ) : BaseViewModel() {
+    
+        val viewState = ${entityName}ViewState()
+    }
+""".trimIndent()
 
-    ) : BaseViewModel()
+fun defaultViewState(
+    newFilePackage: String,
+    entityName: String,
+) = """
+    package $newFilePackage.viewmodel
+    
+    class ${entityName}ViewState {
+    	
+    }
+""".trimIndent()
+
+fun defaultStringProvider(
+    newFilePackage: String,
+    entityName: String,
+    projectData: ProjectTemplateData
+) = """
+    package $newFilePackage.viewmodel
+    
+    import android.content.Context
+    import javax.inject.Inject
+    import ${projectData.applicationPackage}.R
+    import ${projectData.applicationPackage}.presentation.base.res.IStringResourceGetter
+
+    class ${entityName}StringProvider @Inject constructor(
+    	private val context: Context
+    ): IStringResourceGetter {
+
+    	enum class Code {
+    		$entityName
+    	}
+
+    	fun getString(code: Code): String {
+    		return when (code) {
+    			Code.${entityName} -> getStringRes(R.string.app_name)
+    		}
+    	}
+
+    	override fun getStringRes(id: Int): String {
+    		return context.getString(id)
+    	}
+    }
+""".trimIndent()
+
+fun defaultActionEntity(
+    newFilePackage: String,
+    entityName: String,
+    projectData: ProjectTemplateData
+) = """
+    package $newFilePackage.model
+    
+    import ${projectData.applicationPackage}.domain.entity.ActionEntity
+
+    sealed class ${entityName}ActionEntity : ActionEntity() {
+    	
+    }
 """.trimIndent()
 
 fun defaultLayoutWithViewModel(

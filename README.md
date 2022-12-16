@@ -1,5 +1,7 @@
 # android-mvvm-plugin-template
 
+[Plugin Compatibility Documentation](https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html#modules)
+
 ![Build](https://github.com/LeeYoonSam/android-mvvm-plugin-template/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)

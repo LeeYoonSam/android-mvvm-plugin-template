@@ -8,7 +8,6 @@ import java.util.Date
 
 fun RecipeExecutor.mvvmSetupForActivity(
     moduleData: ModuleTemplateData,
-    defaultPackage: String,
     newFilePackage: String,
     entityName: String,
     layoutName: String
@@ -16,13 +15,13 @@ fun RecipeExecutor.mvvmSetupForActivity(
     val (projectData, srcOut, resOut) = moduleData
 
     val format = SimpleDateFormat("yyyy/MM/dd")
-    val date = format.format(Date())
 
     val path = srcOut.absolutePath
     val srcKotlinDir = File(path)
 
     val viewPath = "view"
     val viewModelPath = "viewmodel"
+    val modelPath = "model"
 
     save(
         source = defaultActivity(
@@ -34,14 +33,34 @@ fun RecipeExecutor.mvvmSetupForActivity(
     )
     save(
         source = defaultViewModel(
-            date = date,
-            defaultPackage = defaultPackage,
             newFilePackage = newFilePackage,
             entityName = entityName,
-            layoutName = layoutName,
             projectData = projectData
         ),
         to = srcKotlinDir.resolve("${viewModelPath}/${entityName}ViewModel.kt")
+    )
+    save(
+        source = defaultViewState(
+            newFilePackage = newFilePackage,
+            entityName = entityName,
+        ),
+        to = srcKotlinDir.resolve("${viewModelPath}/${entityName}ViewState.kt")
+    )
+    save(
+        source = defaultStringProvider(
+            newFilePackage = newFilePackage,
+            entityName = entityName,
+            projectData = projectData
+        ),
+        to = srcKotlinDir.resolve("${viewModelPath}/${entityName}StringProvider.kt")
+    )
+    save(
+        source = defaultActionEntity(
+            newFilePackage = newFilePackage,
+            entityName = entityName,
+            projectData = projectData
+        ),
+        to = srcKotlinDir.resolve("${modelPath}/${entityName}ActionEntity.kt")
     )
     save(
         source = defaultLayoutWithViewModel(
@@ -54,7 +73,6 @@ fun RecipeExecutor.mvvmSetupForActivity(
 
 fun RecipeExecutor.mvvmSetupForFragment(
     moduleData: ModuleTemplateData,
-    defaultPackage: String,
     newFilePackage: String,
     entityName: String,
     layoutName: String
@@ -62,13 +80,13 @@ fun RecipeExecutor.mvvmSetupForFragment(
     val (projectData, srcOut, resOut) = moduleData
 
     val format = SimpleDateFormat("yyyy/MM/dd")
-    val date = format.format(Date())
 
     val path = srcOut.absolutePath
     val srcKotlinDir = File(path)
 
     val viewPath = "view"
     val viewModelPath = "viewmodel"
+    val modelPath = "model"
 
     save(
         source = defaultFragment(
@@ -80,14 +98,34 @@ fun RecipeExecutor.mvvmSetupForFragment(
     )
     save(
         source = defaultViewModel(
-            date = date,
-            defaultPackage = defaultPackage,
             newFilePackage = newFilePackage,
             entityName = entityName,
-            layoutName = layoutName,
             projectData = projectData
         ),
         to = srcKotlinDir.resolve("${viewModelPath}/${entityName}ViewModel.kt")
+    )
+    save(
+        source = defaultViewState(
+            newFilePackage = newFilePackage,
+            entityName = entityName,
+        ),
+        to = srcKotlinDir.resolve("${viewModelPath}/${entityName}ViewState.kt")
+    )
+    save(
+        source = defaultStringProvider(
+            newFilePackage = newFilePackage,
+            entityName = entityName,
+            projectData = projectData
+        ),
+        to = srcKotlinDir.resolve("${viewModelPath}/${entityName}StringProvider.kt")
+    )
+    save(
+        source = defaultActionEntity(
+            newFilePackage = newFilePackage,
+            entityName = entityName,
+            projectData = projectData
+        ),
+        to = srcKotlinDir.resolve("${modelPath}/${entityName}ActionEntity.kt")
     )
     save(
         source = defaultLayoutWithViewModel(
